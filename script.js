@@ -49,9 +49,28 @@ if (form) {
     // Save data using storage.js and re-render list
     const userData = getData(userId) || []; // Get data for the user, or an empty array if no data exists yet
     const bookmarks = Array.isArray(userData) ? userData : []; // Check if the data is an array, otherwise initialize an empty array
+
+    if (checkDuplicatedBookmark(bookmarks, url, title, description)) {
+      alert("A bookmark with this URL, title, and description already exists.");
+      return;
+    }
+
     bookmarks.push(newBookmark);
     setData(userId, bookmarks);
     // TODO: re-render list
     form.reset();
   });
+}
+
+export function checkDuplicatedBookmark(bookmarks, url, title, description) {
+  // Check for duplicates
+  // if the URL already exists with identical title and description, then alert user
+  // If the URL is the same, but title and/or description is different, the record will be updated
+  for (const item of bookmarks) {
+    const sameUrl = item.url.toLowerCase() === url.toLowerCase();
+    const sameTitle = item.title === title;
+    const sameDescription = item.description === description;
+    if (sameUrl && sameTitle && sameDescription) return true;
+  }
+  return false;
 }
