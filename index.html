@@ -20,7 +20,8 @@
             id="url"
             name="url"
             placeholder="http[s]://example.com"
-            pattern="https?://.*"
+            pattern="https?://(?:[A-Za-z0-9\-]+\.)+[A-Za-z]{2,}(?::\d+)?(?:[\/?#]\S*)?"
+            title="Enter a valid URL starting with http:// or https://, e.g. https://example.com"
             required
           />
         </div>
@@ -31,18 +32,20 @@
             id="title"
             name="title"
             placeholder="Enter bookmark title"
+            title="Enter a title for the bookmark, e.g. Google"
             required
           />
         </div>
         <div>
           <label for="description">Description</label>
-          <textarea
+          <input
+            type="text"
             id="description"
             name="description"
-            placeholder="Brief description of the bookmark"
-            rows="3"
+            placeholder="Brief description"
+            title="Enter a description for the bookmark"
             required
-          ></textarea>
+          />
         </div>
         <button type="submit" id="submit-btn">Add Bookmark</button>
       </form>
