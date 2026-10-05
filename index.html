@@ -32,7 +32,8 @@
             id="title"
             name="title"
             placeholder="Enter bookmark title"
-            title="Enter a title for the bookmark, e.g. Google"
+            pattern=".*\S.*"
+            title="Enter a non-empty title for the bookmark, e.g. Google"
             required
           />
         </div>
@@ -42,8 +43,9 @@
             type="text"
             id="description"
             name="description"
+            pattern=".*\S.*"
             placeholder="Brief description"
-            title="Enter a description for the bookmark"
+            title="Enter a non-empty description for the bookmark"
             required
           />
         </div>
