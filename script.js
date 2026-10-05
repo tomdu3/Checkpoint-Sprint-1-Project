@@ -7,7 +7,11 @@
 import { getUserIds, getData, setData } from "./storage.js";
 
 // Implement bookmark submission handler
-const form = document.querySelector("#bookmark-form");
+
+const form =
+  typeof document !== "undefined"
+    ? document.querySelector("#bookmark-form")
+    : null; // for the tests to work
 if (form) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
