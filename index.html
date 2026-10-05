@@ -1,8 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <script type="module" src="script.js"></script>
   </head>
   <body>
+    <!-- TODO: Temporary, can be deleted later -->
+    <section>
+      <h2 data-user-id="1" id="user-id">User 1 Bookmarks</h2>
+    </section>
+    <!-- TODO: End of Temporary, can be deleted later -->
+    <!-- Bookmark Form -->
+    <section>
+      <h2>Add a New Bookmark</h2>
+      <form id="bookmark-form">
+        <div>
+          <label for="url">URL</label>
+          <input
+            type="url"
+            id="url"
+            name="url"
+            placeholder="http[s]://example.com"
+            pattern="https?://.*"
+            required
+          />
+        </div>
+        <div>
+          <label for="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter bookmark title"
+            required
+          />
+        </div>
+        <div>
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Brief description of the bookmark"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" id="submit-btn">Add Bookmark</button>
+      </form>
+    </section>
   </body>
 </html>
