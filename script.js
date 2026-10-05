@@ -6,13 +6,6 @@
 
 import { getUserIds, getData, setData } from "./storage.js";
 
-window.onload = function () {
-  const users = getUserIds();
-  // document.querySelector("body").innerText = `There are ${users.length} users`;
-  // FIXME: Remove this line later, just for testing
-  // setData("1", { name: "John" });
-};
-
 // Implement bookmark submission handler
 const form = document.querySelector("#bookmark-form");
 if (form) {
