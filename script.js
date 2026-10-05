@@ -15,24 +15,43 @@ window.onload = function () {
 
 // Implement bookmark submission handler
 const form = document.querySelector("#bookmark-form");
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const url = document.querySelector("#url").value.toLowerCase().trim();
-  // TODO: implement URL validation
-  const title = document.querySelector("#title").value.trim();
-  const description = document.querySelector("#description").value.trim();
-  const userId = document.querySelector("[data-user-id]").dataset.userId;
-  // Create new bookmark object
-  const newBookmark = {
-    url,
-    title,
-    description,
-    likes: 0,
-  };
-  // Save data using storage.js and re-render list
-  const userData = getData(userId) || {}; // Get data for the user, or an empty object if no data exists yet
-  userData[new Date().toISOString()] = newBookmark;
-  setData(userId, userData);
-  // TODO: re-render list
-  form.reset();
-});
+if (form) {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const url = document.querySelector("#url").value.trim().replace(/\/+$/, "");
+    const title = document.querySelector("#title").value.trim();
+    const description = document.querySelector("#description").value.trim();
+    const userId = document.querySelector("[data-user-id]").dataset.userId;
+
+    // Check for empty fields
+    if (!url || !title || !description) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Validate URL using a regular expression
+    const urlRegex =
+      /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+    if (!urlRegex.test(url)) {
+      alert("Please enter a valid URL.");
+      return;
+    }
+
+    // Create new bookmark object
+    const newBookmark = {
+      url,
+      title,
+      description,
+      createdAt: new Date().toISOString(),
+      likes: 0,
+    };
+
+    // Save data using storage.js and re-render list
+    const userData = getData(userId) || []; // Get data for the user, or an empty array if no data exists yet
+    const bookmarks = Array.isArray(userData) ? userData : []; // Check if the data is an array, otherwise initialize an empty array
+    bookmarks.push(newBookmark);
+    setData(userId, bookmarks);
+    // TODO: re-render list
+    form.reset();
+  });
+}
