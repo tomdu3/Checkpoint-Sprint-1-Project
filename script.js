@@ -111,10 +111,14 @@ export function renderBookmarks(userId, isError = false) {
   const actionsHeader = document.createElement("th");
   actionsHeader.textContent = "Actions";
 
+  const likesHeader = document.createElement("th");
+  likesHeader.textContent = "Likes";
+
   headerRow.appendChild(titleHeader);
   headerRow.appendChild(descriptionHeader);
   headerRow.appendChild(timestampHeader);
   headerRow.appendChild(actionsHeader);
+  headerRow.appendChild(likesHeader);
   theadElement.appendChild(headerRow);
   tableElement.appendChild(theadElement);
 
@@ -153,12 +157,24 @@ export function renderBookmarks(userId, isError = false) {
       copyBookmarkUrl(bookmark.url, copyButton);
     });
 
+    // Like counter button
+    const likesCell = document.createElement("td");
+    const likeButton = document.createElement("button");
+    likeButton.type = "button";
+    likeButton.textContent = `Like ${bookmark.likes ?? 0}`;
+
+    likeButton.addEventListener("click", () => {
+      likeBookmark(bookmark, userId, bookmarks);
+    });
+
     actionsCell.appendChild(copyButton);
+    likesCell.appendChild(likeButton);
 
     row.appendChild(titleCell);
     row.appendChild(descriptionCell);
     row.appendChild(timestampCell);
     row.appendChild(actionsCell);
+    row.appendChild(likesCell);
 
     tbodyElement.appendChild(row);
   });
@@ -180,6 +196,14 @@ async function copyBookmarkUrl(url, button) {
   } catch {
     button.textContent = "Copy failed";
   }
+}
+
+// Update bookmark like count
+function likeBookmark(bookmark, userId, bookmarks) {
+  bookmark.likes = (bookmark.likes ?? 0) + 1;
+
+  setData(userId, bookmarks);
+  renderBookmarks(userId);
 }
 
 // Sort bookmarks in reverse chronological order (newest first)
