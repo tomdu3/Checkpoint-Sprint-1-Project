@@ -138,7 +138,10 @@ export function renderBookmarks(userId) {
 
   const tbodyElement = document.createElement("tbody");
 
-  bookmarks.forEach((bookmark) => {
+  // Display in reverse chronological order (newest timestamp first)
+  const sortedBookmarks = sortBookmarks(bookmarks);
+
+  sortedBookmarks.forEach((bookmark) => {
     const row = document.createElement("tr");
 
     // Title as a clickable hyperlink (<a href="..." target="_blank">)
@@ -167,6 +170,16 @@ export function renderBookmarks(userId) {
 
   tableElement.appendChild(tbodyElement);
   feedElement.appendChild(tableElement);
+}
+
+// Sort bookmarks in reverse chronological order (newest first)
+export function sortBookmarks(bookmarks) {
+  if (!Array.isArray(bookmarks)) return [];
+  return [...bookmarks].sort((a, b) => {
+    const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+    return timeB - timeA;
+  });
 }
 
 // Format creation timestamp
