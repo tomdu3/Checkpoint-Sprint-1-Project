@@ -149,21 +149,11 @@ export function renderBookmarks(userId, isError = false) {
     copyButton.type = "button";
     copyButton.textContent = "Copy to clipboard";
 
-    copyButton.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(bookmark.url);
-
-        copyButton.textContent = "Copied!";
-
-        setTimeout(() => {
-          copyButton.textContent = "Copy to clipboard";
-        }, 1500);
-      } catch {
-        copyButton.textContent = "Copy failed";
-      }
+    copyButton.addEventListener("click", () => {
+      copyBookmarkUrl(bookmark.url, copyButton);
     });
 
-actionsCell.appendChild(copyButton);
+    actionsCell.appendChild(copyButton);
 
     row.appendChild(titleCell);
     row.appendChild(descriptionCell);
@@ -171,10 +161,25 @@ actionsCell.appendChild(copyButton);
     row.appendChild(actionsCell);
 
     tbodyElement.appendChild(row);
-});
+  });
 
   tableElement.appendChild(tbodyElement);
   feedElement.appendChild(tableElement);
+}
+
+// Copy bookmark URL
+async function copyBookmarkUrl(url, button) {
+  try {
+    await navigator.clipboard.writeText(url);
+
+    button.textContent = "Copied!";
+
+    setTimeout(() => {
+      button.textContent = "Copy to clipboard";
+    }, 1500);
+  } catch {
+    button.textContent = "Copy failed";
+  }
 }
 
 // Sort bookmarks in reverse chronological order (newest first)
