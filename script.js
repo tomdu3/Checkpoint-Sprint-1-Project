@@ -75,7 +75,7 @@ export function renderBookmarks(userId, isError = false) {
 
   if (!userId) {
     const message = document.createElement("p");
-    message.textContent = "Please select a user to view bookmarks.";
+    message.textContent = "Cannot add bookmark. Please select a user first.";
     if (isError) {
       message.style.color = "red";
     }
