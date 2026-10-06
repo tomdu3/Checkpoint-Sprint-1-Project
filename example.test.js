@@ -171,7 +171,7 @@ test("sortBookmarks sorts bookmarks in reverse chronological order (newest first
   const sorted = sortBookmarks(bookmarks);
   assert.equal(sorted[0].title, "Newest");
   assert.equal(sorted[1].title, "Middle");
-  assert.equal(sorted[2].title, "Older");
+  assert.equal(sorted[2].title, "Oldest");
 });
 
 test("sortBookmarks does not change the original array", () => {
