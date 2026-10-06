@@ -108,9 +108,13 @@ export function renderBookmarks(userId, isError = false) {
   const timestampHeader = document.createElement("th");
   timestampHeader.textContent = "Timestamp";
 
+  const actionsHeader = document.createElement("th");
+  actionsHeader.textContent = "Actions";
+
   headerRow.appendChild(titleHeader);
   headerRow.appendChild(descriptionHeader);
   headerRow.appendChild(timestampHeader);
+  headerRow.appendChild(actionsHeader);
   theadElement.appendChild(headerRow);
   tableElement.appendChild(theadElement);
 
@@ -138,13 +142,36 @@ export function renderBookmarks(userId, isError = false) {
     // Formatted creation timestamp
     const timestampCell = document.createElement("td");
     timestampCell.textContent = formatTimestamp(bookmark.createdAt);
+    
+    // Bookmark actions
+    const actionsCell = document.createElement("td");
+    const copyButton = document.createElement("button");
+    copyButton.type = "button";
+    copyButton.textContent = "Copy to clipboard";
+
+    copyButton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(bookmark.url);
+
+        copyButton.textContent = "Copied!";
+
+        setTimeout(() => {
+          copyButton.textContent = "Copy to clipboard";
+        }, 1500);
+      } catch {
+        copyButton.textContent = "Copy failed";
+      }
+    });
+
+actionsCell.appendChild(copyButton);
 
     row.appendChild(titleCell);
     row.appendChild(descriptionCell);
     row.appendChild(timestampCell);
+    row.appendChild(actionsCell);
 
     tbodyElement.appendChild(row);
-  });
+});
 
   tableElement.appendChild(tbodyElement);
   feedElement.appendChild(tableElement);
