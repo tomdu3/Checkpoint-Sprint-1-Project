@@ -74,17 +74,6 @@ if (form) {
     const userData = getData(userId) || []; // Get data for the user, or an empty array if no data exists yet
     const bookmarks = Array.isArray(userData) ? userData : []; // Check if the data is an array, otherwise initialize an empty array
 
-    // If a bookmark with the same URL already exists, remove the previous one,
-    // but keep its likes count.
-    const existingIndex = bookmarks.findIndex(
-      (item) => item.url.toLowerCase() === url.toLowerCase(),
-    );
-
-    if (existingIndex !== -1) {
-      newBookmark.likes = bookmarks[existingIndex].likes || 0;
-      bookmarks.splice(existingIndex, 1);
-    }
-
     bookmarks.push(newBookmark);
     setData(userId, bookmarks);
 
@@ -195,17 +184,4 @@ export function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
   if (isNaN(date.getTime())) return "";
   return date.toLocaleString(); // for display in local time of the user
-}
-
-export function checkDuplicatedBookmark(bookmarks, url, title, description) {
-  // Check for duplicates
-  // if the URL already exists with identical title and description, then alert user
-  // If the URL is the same, but title and/or description is different, the record will be updated
-  for (const item of bookmarks) {
-    const sameUrl = item.url.toLowerCase() === url.toLowerCase();
-    const sameTitle = item.title === title;
-    const sameDescription = item.description === description;
-    if (sameUrl && sameTitle && sameDescription) return true;
-  }
-  return false;
 }
