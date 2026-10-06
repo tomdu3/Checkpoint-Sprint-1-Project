@@ -41,6 +41,7 @@ if (form) {
     const description = document.querySelector("#description").value.trim();
     const userId = document.querySelector("#user_Id").value;
 
+    // TODO: Do we really need these checks? Remove them later if not needed.
     // Check for empty fields
     if (!userId) {
       alert("Please select a user.");
@@ -73,9 +74,15 @@ if (form) {
     const userData = getData(userId) || []; // Get data for the user, or an empty array if no data exists yet
     const bookmarks = Array.isArray(userData) ? userData : []; // Check if the data is an array, otherwise initialize an empty array
 
-    if (checkDuplicatedBookmark(bookmarks, url, title, description)) {
-      alert("A bookmark with this URL, title, and description already exists.");
-      return;
+    // If a bookmark with the same URL already exists, remove the previous one,
+    // but keep its likes count.
+    const existingIndex = bookmarks.findIndex(
+      (item) => item.url.toLowerCase() === url.toLowerCase(),
+    );
+
+    if (existingIndex !== -1) {
+      newBookmark.likes = bookmarks[existingIndex].likes || 0;
+      bookmarks.splice(existingIndex, 1);
     }
 
     bookmarks.push(newBookmark);
