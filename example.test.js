@@ -1,7 +1,10 @@
 import assert from "node:assert";
 import test from "node:test";
 import { getUserIds } from "./storage.js";
-import { checkDuplicatedBookmark } from "./script.js";
+import {
+  checkDuplicatedBookmark,
+  formatTimestamp,
+} from "./script.js";
 
 test("checkDuplicatedBookmark returns false when bookmarks list is empty", () => {
   const bookmarks = [];
@@ -120,3 +123,18 @@ test("checkDuplicatedBookmark detects duplicate when multiple bookmarks exist", 
   );
   assert.equal(result, true);
 });
+
+test("formatTimestamp returns a formatted date string for a valid ISO timestamp", () => {
+  const timestamp = "2026-10-06T15:02:20.000Z";
+  const formatted = formatTimestamp(timestamp);
+  assert.ok(formatted.length > 0);
+  assert.ok(formatted.includes("2026"));
+});
+
+test("formatTimestamp returns an empty string for missing or invalid timestamps", () => {
+  assert.equal(formatTimestamp(""), "");
+  assert.equal(formatTimestamp(null), "");
+  assert.equal(formatTimestamp(undefined), "");
+  assert.equal(formatTimestamp("invalid-date"), "");
+});
+
