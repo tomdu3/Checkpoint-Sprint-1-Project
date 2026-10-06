@@ -1,8 +1,7 @@
 import { getUserIds, getData, setData } from "./storage.js";
 
 // Create user selection dropdown
-const userElement =
-  typeof document !== "undefined" ? document.getElementById("user_Id") : null; // for the tests to work
+const userElement = document.getElementById("user_Id");
 
 if (userElement) {
   const userIds = getUserIds();
@@ -29,10 +28,7 @@ if (userElement) {
 }
 
 // Bookmark submission handler
-const form =
-  typeof document !== "undefined"
-    ? document.querySelector("#bookmark-form")
-    : null; // for the tests to work
+const form = document.querySelector("#bookmark-form");
 if (form) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -41,23 +37,9 @@ if (form) {
     const description = document.querySelector("#description").value.trim();
     const userId = document.querySelector("#user_Id").value;
 
-    // TODO: Do we really need these checks? Remove them later if not needed.
-    // Check for empty fields
+    // Check if user is selected
     if (!userId) {
-      alert("Please select a user.");
-      return;
-    }
-
-    if (!url || !title || !description) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    // Validate URL using a regular expression
-    const urlRegex =
-      /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
-    if (!urlRegex.test(url)) {
-      alert("Please enter a valid URL.");
+      renderBookmarks("", true);
       return;
     }
 
@@ -74,17 +56,6 @@ if (form) {
     const userData = getData(userId) || []; // Get data for the user, or an empty array if no data exists yet
     const bookmarks = Array.isArray(userData) ? userData : []; // Check if the data is an array, otherwise initialize an empty array
 
-    // If a bookmark with the same URL already exists, remove the previous one,
-    // but keep its likes count.
-    const existingIndex = bookmarks.findIndex(
-      (item) => item.url.toLowerCase() === url.toLowerCase(),
-    );
-
-    if (existingIndex !== -1) {
-      newBookmark.likes = bookmarks[existingIndex].likes || 0;
-      bookmarks.splice(existingIndex, 1);
-    }
-
     bookmarks.push(newBookmark);
     setData(userId, bookmarks);
 
@@ -95,11 +66,8 @@ if (form) {
 }
 
 // Render bookmark feed for the selected user
-export function renderBookmarks(userId) {
-  const feedElement =
-    typeof document !== "undefined"
-      ? document.querySelector("#bookmark-feed")
-      : null; // for the tests to work
+export function renderBookmarks(userId, isError = false) {
+  const feedElement = document.querySelector("#bookmark-feed");
 
   if (!feedElement) return;
 
@@ -107,7 +75,10 @@ export function renderBookmarks(userId) {
 
   if (!userId) {
     const message = document.createElement("p");
-    message.textContent = "Please select a user to view bookmarks.";
+    message.textContent = "Cannot add bookmark. Please select a user first.";
+    if (isError) {
+      message.style.color = "red";
+    }
     feedElement.appendChild(message);
     return;
   }
@@ -195,17 +166,4 @@ export function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
   if (isNaN(date.getTime())) return "";
   return date.toLocaleString(); // for display in local time of the user
-}
-
-export function checkDuplicatedBookmark(bookmarks, url, title, description) {
-  // Check for duplicates
-  // if the URL already exists with identical title and description, then alert user
-  // If the URL is the same, but title and/or description is different, the record will be updated
-  for (const item of bookmarks) {
-    const sameUrl = item.url.toLowerCase() === url.toLowerCase();
-    const sameTitle = item.title === title;
-    const sameDescription = item.description === description;
-    if (sameUrl && sameTitle && sameDescription) return true;
-  }
-  return false;
 }
