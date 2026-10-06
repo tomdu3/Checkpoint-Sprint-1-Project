@@ -1,6 +1,13 @@
 import assert from "node:assert";
 import test from "node:test";
-import { sortBookmarks, formatTimestamp } from "./script.js";
+
+// Mock minimal document object for Node.js test environment
+globalThis.document = {
+  getElementById: () => null,
+  querySelector: () => null,
+};
+
+const { sortBookmarks, formatTimestamp } = await import("./script.js");
 
 // TODO: should think of  the way I can test it correctly because the format is different in different local time
 test("formatTimestamp returns a formatted date string for a valid ISO timestamp", () => {

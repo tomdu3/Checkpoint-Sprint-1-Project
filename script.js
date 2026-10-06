@@ -1,8 +1,7 @@
 import { getUserIds, getData, setData } from "./storage.js";
 
 // Create user selection dropdown
-const userElement =
-  typeof document !== "undefined" ? document.getElementById("user_Id") : null; // for the tests to work
+const userElement = document.getElementById("user_Id");
 
 if (userElement) {
   const userIds = getUserIds();
@@ -29,10 +28,7 @@ if (userElement) {
 }
 
 // Bookmark submission handler
-const form =
-  typeof document !== "undefined"
-    ? document.querySelector("#bookmark-form")
-    : null; // for the tests to work
+const form = document.querySelector("#bookmark-form");
 if (form) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -85,10 +81,7 @@ if (form) {
 
 // Render bookmark feed for the selected user
 export function renderBookmarks(userId) {
-  const feedElement =
-    typeof document !== "undefined"
-      ? document.querySelector("#bookmark-feed")
-      : null; // for the tests to work
+  const feedElement = document.querySelector("#bookmark-feed");
 
   if (!feedElement) return;
 
