@@ -39,7 +39,7 @@ if (form) {
 
     // Check if user is selected
     if (!userId) {
-      alert("Please select a user."); // TODO: use inline message instead.
+      renderBookmarks("", true);
       return;
     }
 
@@ -66,7 +66,7 @@ if (form) {
 }
 
 // Render bookmark feed for the selected user
-export function renderBookmarks(userId) {
+export function renderBookmarks(userId, isError = false) {
   const feedElement = document.querySelector("#bookmark-feed");
 
   if (!feedElement) return;
@@ -76,6 +76,9 @@ export function renderBookmarks(userId) {
   if (!userId) {
     const message = document.createElement("p");
     message.textContent = "Please select a user to view bookmarks.";
+    if (isError) {
+      message.style.color = "red";
+    }
     feedElement.appendChild(message);
     return;
   }
