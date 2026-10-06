@@ -7,14 +7,13 @@ globalThis.document = {
   querySelector: () => null,
 };
 
-const { sortBookmarks, formatTimestamp } = await import("./script.js");
+const { formatTimestamp, sortBookmarks } = await import("./script.js");
 
-// TODO: should think of  the way I can test it correctly because the format is different in different local time
+// Test cases for formatTimestamp function
 test("formatTimestamp returns a formatted date string for a valid ISO timestamp", () => {
   const timestamp = "2026-10-06T15:02:20.000Z";
-  const formatted = formatTimestamp(timestamp);
-  assert.ok(formatted.length > 0);
-  assert.ok(formatted.includes("2026"));
+  const expected = new Date(timestamp).toLocaleString();
+  assert.equal(formatTimestamp(timestamp), expected);
 });
 
 test("formatTimestamp returns an empty string for missing or invalid timestamps", () => {
@@ -24,6 +23,7 @@ test("formatTimestamp returns an empty string for missing or invalid timestamps"
   assert.equal(formatTimestamp("invalid-date"), "");
 });
 
+// Test cases for sortBookmarks function
 test("sortBookmarks returns empty array when given empty list or invalid input", () => {
   assert.deepEqual(sortBookmarks([]), []);
   assert.deepEqual(sortBookmarks(null), []);
