@@ -37,23 +37,9 @@ if (form) {
     const description = document.querySelector("#description").value.trim();
     const userId = document.querySelector("#user_Id").value;
 
-    // TODO: Do we really need these checks? Remove them later if not needed.
-    // Check for empty fields
+    // Check if user is selected
     if (!userId) {
-      alert("Please select a user.");
-      return;
-    }
-
-    if (!url || !title || !description) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    // Validate URL using a regular expression
-    const urlRegex =
-      /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b(?:[-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
-    if (!urlRegex.test(url)) {
-      alert("Please enter a valid URL.");
+      alert("Please select a user."); // TODO: use inline message instead.
       return;
     }
 
