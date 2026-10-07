@@ -5,35 +5,38 @@ function setupUserDropdown() {
   const userElement = document.getElementById("user_Id");
 
   if (!userElement) return;
-    const userIds = getUserIds();
 
-    userIds.forEach((userId) => {
-      const option = document.createElement("option");
-      option.value = userId;
-      option.textContent = `User ${userId}`;
-      userElement.appendChild(option);
-    });
+  const userIds = getUserIds();
 
-    // Fetch and display bookmarks when user selection changes
-    userElement.addEventListener("change", (event) => {
-      const selectedUserId = event.target.value;
-      if(selectedUserId){
-        clearUserError();
-      }
-      renderBookmarks(selectedUserId);
-    });
+  userIds.forEach((userId) => {
+    const option = document.createElement("option");
+    option.value = userId;
+    option.textContent = `User ${userId}`;
+    userElement.appendChild(option);
+  });
 
-    if (userElement.value) {
-      renderBookmarks(userElement.value);
+  // Fetch and display bookmarks when user selection changes
+  userElement.addEventListener("change", (event) => {
+    const selectedUserId = event.target.value;
+
+    if (selectedUserId) {
+      clearUserError();
     }
+
+    renderBookmarks(selectedUserId);
+  });
+
+  if (userElement.value) {
+    renderBookmarks(userElement.value);
   }
+}
 
 setupUserDropdown();
 
-// clear error message after selecting a user 
-function clearUserError(){
+// clear error message after selecting a user
+function clearUserError() {
   const userError = document.querySelector("#user-error");
-  if (userError){
+  if (userError) {
     userError.textContent = "";
   }
 }
@@ -49,7 +52,7 @@ function setupBookmarkForm() {
     // get bookmark form values
     const { url, title, description, userId } = getBookmarkFormValues();
 
-    // validate selected user 
+    // validate selected user
     if (!validateSelectedUser(userId)) {
       return;
     }
@@ -79,17 +82,17 @@ function validateSelectedUser(userId) {
   return true;
 }
 
-// get bookmark form values 
-function getBookmarkFormValues(){
-  return{
-    url : document.querySelector("#url").value.trim().replace(/\/+$/, ""),
-    title : document.querySelector("#title").value.trim(),
-    description : document.querySelector("#description").value.trim(),
-    userId : document.querySelector("#user_Id").value,
+// get bookmark form values
+function getBookmarkFormValues() {
+  return {
+    url: document.querySelector("#url").value.trim().replace(/\/+$/, ""),
+    title: document.querySelector("#title").value.trim(),
+    description: document.querySelector("#description").value.trim(),
+    userId: document.querySelector("#user_Id").value,
   };
 }
 
-// save bookmark 
+// save bookmark
 function saveBookmark(userId, bookmark) {
   const userData = getData(userId) || [];
   const bookmarks = Array.isArray(userData) ? userData : [];
@@ -97,7 +100,7 @@ function saveBookmark(userId, bookmark) {
   setData(userId, bookmarks);
 }
 
-// create new bookmark 
+// create new bookmark
 function createNewBookmark(url, title, description) {
   return {
     url,
@@ -167,25 +170,13 @@ function createBookmarkRow(bookmark, userId, bookmarks) {
   const timestampCell = document.createElement("td");
   timestampCell.textContent = formatTimestamp(bookmark.createdAt);
 
-  // Bookmark actions
+  // Bookmark copy actions
   const actionsCell = document.createElement("td");
-  const copyButton = document.createElement("button");
-  copyButton.type = "button";
-  copyButton.textContent = "Copy to clipboard";
+  const copyButton = createCopyButton(bookmark);
 
-  copyButton.addEventListener("click", () => {
-    copyBookmarkUrl(bookmark.url, copyButton);
-  });
-
-  // Like counter button
+  // Bookmark like button
   const likesCell = document.createElement("td");
-  const likeButton = document.createElement("button");
-  likeButton.type = "button";
-  likeButton.textContent = `Like ${bookmark.likes ?? 0}`;
-
-  likeButton.addEventListener("click", () => {
-    likeBookmark(bookmark, userId, bookmarks);
-  });
+  const likeButton = createLikeButton(bookmark, userId, bookmarks);
 
   actionsCell.appendChild(copyButton);
   likesCell.appendChild(likeButton);
@@ -197,6 +188,30 @@ function createBookmarkRow(bookmark, userId, bookmarks) {
   row.appendChild(likesCell);
 
   return row;
+}
+
+// create like button
+function createLikeButton(bookmark, userId, bookmarks) {
+  const likeButton = document.createElement("button");
+  likeButton.type = "button";
+  likeButton.textContent = `Like ${bookmark.likes ?? 0}`;
+
+  likeButton.addEventListener("click", () => {
+    likeBookmark(bookmark, userId, bookmarks);
+  });
+  return likeButton;
+}
+
+// create copy button
+function createCopyButton(bookmark) {
+  const copyButton = document.createElement("button");
+  copyButton.type = "button";
+  copyButton.textContent = "Copy to clipboard";
+
+  copyButton.addEventListener("click", () => {
+    copyBookmarkUrl(bookmark.url, copyButton);
+  });
+  return copyButton;
 }
 
 // Create bookmark table : builds table + headings
