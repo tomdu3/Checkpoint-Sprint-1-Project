@@ -35,13 +35,10 @@ function setupBookmarkForm() {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-
-    const url = document.querySelector("#url").value.trim().replace(/\/+$/, "");
-    const title = document.querySelector("#title").value.trim();
-    const description = document.querySelector("#description").value.trim();
-    const userId = document.querySelector("#user_Id").value;
+    // get bookmark form values
+    const { url, title, description, userId } = getBookmarkFormValues();
+    
     const userError = document.querySelector("#user-error");
-
     if (!userId) {
       userError.textContent = "Please select a user before adding a bookmark.";
       return;
@@ -49,10 +46,10 @@ function setupBookmarkForm() {
 
     userError.textContent = "";
 
-    // Create new bookmark 
+    // Create new bookmark
     const newBookmark = createNewBookmark(url, title, description);
 
-    // Save the new bookmark 
+    // Save the new bookmark
     saveBookmark(userId, newBookmark);
 
     // Re-render feed immediately when a new bookmark is submitted
@@ -62,6 +59,16 @@ function setupBookmarkForm() {
 }
 
 setupBookmarkForm();
+
+// get bookmark form values 
+function getBookmarkFormValues(){
+  return{
+    url : document.querySelector("#url").value.trim().replace(/\/+$/, ""),
+    title : document.querySelector("#title").value.trim(),
+    description : document.querySelector("#description").value.trim(),
+    userId : document.querySelector("#user_Id").value,
+  };
+}
 
 // save bookmark 
 function saveBookmark(userId, bookmark) {
