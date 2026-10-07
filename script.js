@@ -9,11 +9,8 @@ if (userElement) {
 
   userIds.forEach((userId) => {
     const option = document.createElement("option");
-
     option.value = userId;
-
     option.textContent = `User ${userId}`;
-
     userElement.appendChild(option);
   });
 
@@ -35,7 +32,7 @@ function setupBookmarkForm() {
 
   const form = document.querySelector("#bookmark-form");
 
-if (!form) return;
+  if (!form) return;
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -46,34 +43,34 @@ if (!form) return;
     const userId = document.querySelector("#user_Id").value;
     const userError = document.querySelector("#user-error");
 
-    if (!userId) {
+  if (!userId) {
       userError.textContent = "Please select a user before adding a bookmark.";
       return;
-    }
+  }
 
-    userError.textContent = "";
+  userError.textContent = "";
 
-    // Create new bookmark object
-    const newBookmark = {
+  // Create new bookmark object
+  const newBookmark = {
       url,
       title,
       description,
       createdAt: new Date().toISOString(),
       likes: 0,
-    };
+  };
 
-    // Save data using storage.js and re-render list
-    const userData = getData(userId) || [];
-    // Get data for the user, or an empty array if no data exists yet
-    // Check if the data is an array, otherwise initialize an empty array
-    const bookmarks = Array.isArray(userData) ? userData : [];
+  // Save data using storage.js and re-render list
+  const userData = getData(userId) || [];
+  // Get data for the user, or an empty array if no data exists yet
+  // Check if the data is an array, otherwise initialize an empty array
+  const bookmarks = Array.isArray(userData) ? userData : [];
 
-    bookmarks.push(newBookmark);
-    setData(userId, bookmarks);
+  bookmarks.push(newBookmark);
+  setData(userId, bookmarks);
 
-    // Re-render feed immediately when a new bookmark is submitted
-    renderBookmarks(userId);
-    form.reset();
+  // Re-render feed immediately when a new bookmark is submitted
+  renderBookmarks(userId);
+  form.reset();
   });
 }
 
@@ -101,34 +98,8 @@ export function renderBookmarks(userId) {
      showFeedMessage(feedElement, "No bookmarks saved for this user yet.");
     return;
   }
-
-  const tableElement = document.createElement("table");
-  const theadElement = document.createElement("thead");
-  const headerRow = document.createElement("tr");
-
-  const titleHeader = document.createElement("th");
-  titleHeader.textContent = "Title";
-
-  const descriptionHeader = document.createElement("th");
-  descriptionHeader.textContent = "Description";
-
-  const timestampHeader = document.createElement("th");
-  timestampHeader.textContent = "Timestamp";
-
-  const actionsHeader = document.createElement("th");
-  actionsHeader.textContent = "Actions";
-
-  const likesHeader = document.createElement("th");
-  likesHeader.textContent = "Likes";
-
-  headerRow.appendChild(titleHeader);
-  headerRow.appendChild(descriptionHeader);
-  headerRow.appendChild(timestampHeader);
-  headerRow.appendChild(actionsHeader);
-  headerRow.appendChild(likesHeader);
-  theadElement.appendChild(headerRow);
-  tableElement.appendChild(theadElement);
-
+  // create bookmark table
+  const tableElement = createBookmarkTable();
   const tbodyElement = document.createElement("tbody");
 
   // Display in reverse chronological order (newest timestamp first)
@@ -190,6 +161,31 @@ export function renderBookmarks(userId) {
   feedElement.appendChild(tableElement);
 }
 
+// Create bookmark table
+function createBookmarkTable(){
+    const tableElement = document.createElement("table");
+    const theadElement = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    
+    const headers = [
+      "Title", 
+      "Description", 
+      "Timestamp", 
+      "Actions", 
+      "Likes",
+    ];
+    headers.forEach((headerText)=>{
+      const header = document.createElement("th");  
+      header.textContent = headerText;
+      headerRow.appendChild(header);
+    });
+    
+    theadElement.appendChild(headerRow);
+    tableElement.appendChild(theadElement);
+
+    return tableElement;
+} 
+// Display Message 
 function showFeedMessage(feedElement, text) {
   const message = document.createElement("p");
   message.textContent = text;
@@ -200,9 +196,7 @@ function showFeedMessage(feedElement, text) {
 async function copyBookmarkUrl(url, button) {
   try {
     await navigator.clipboard.writeText(url);
-
     button.textContent = "Copied!";
-
     setTimeout(() => {
       button.textContent = "Copy to clipboard";
     }, 1500);
@@ -214,7 +208,6 @@ async function copyBookmarkUrl(url, button) {
 // Update bookmark like count
 function likeBookmark(bookmark, userId, bookmarks) {
   bookmark.likes = (bookmark.likes ?? 0) + 1;
-
   setData(userId, bookmarks);
   renderBookmarks(userId);
 }
