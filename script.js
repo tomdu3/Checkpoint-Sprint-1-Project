@@ -88,9 +88,7 @@ export function renderBookmarks(userId) {
   feedElement.innerHTML = "";
 
   if (!userId) {
-    const message = document.createElement("p");
-    message.textContent = "Please select a user to view bookmarks.";
-    feedElement.appendChild(message);
+    showFeedMessage(feedElement,"Please select a user to view bookmarks.");
     return;
   }
 
@@ -100,9 +98,7 @@ export function renderBookmarks(userId) {
 
   // If no bookmarks exist, show a user-friendly explanatory message
   if (bookmarks.length === 0) {
-    const message = document.createElement("p");
-    message.textContent = "No bookmarks saved for this user yet.";
-    feedElement.appendChild(message);
+     showFeedMessage(feedElement, "No bookmarks saved for this user yet.");
     return;
   }
 
@@ -192,6 +188,12 @@ export function renderBookmarks(userId) {
 
   tableElement.appendChild(tbodyElement);
   feedElement.appendChild(tableElement);
+}
+
+function showFeedMessage(feedElement, text) {
+  const message = document.createElement("p");
+  message.textContent = text;
+  feedElement.appendChild(message);
 }
 
 // Copy bookmark URL
