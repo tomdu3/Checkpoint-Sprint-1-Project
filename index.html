@@ -13,20 +13,13 @@
     </header>
 
     <main>
+      <!-- User Menu -->
       <section>
-        <!-- TODO: Here we need a section title  -->
+        <h2>User Menu</h2>
         <label for="user_Id">Choose a user:</label>
         <select id="user_Id">
           <option value="">Select a user</option>
         </select>
-      </section>
-
-      <!-- Bookmark Feed -->
-      <section id="bookmark-feed-section">
-        <h2>Bookmarks</h2>
-        <div id="bookmark-feed">
-          <p>Please select a user to view bookmarks.</p>
-        </div>
       </section>
 
       <!-- Bookmark Form -->
@@ -53,23 +46,33 @@
               placeholder="Enter bookmark title"
               pattern=".*\S.*"
               title="Enter a non-empty title for the bookmark, e.g. Google"
+              maxlength="80"
               required
             />
           </div>
           <div>
             <label for="description">Description</label>
-            <input
-              type="text"
+            <textarea
               id="description"
               name="description"
-              pattern=".*\S.*"
               placeholder="Brief description"
               title="Enter a non-empty description for the bookmark"
+              maxlength="200"
+              rows="1"
               required
-            />
+            >
+          </textarea>
           </div>
           <button type="submit" id="submit-btn">Add Bookmark</button>
         </form>
+      </section>
+
+      <!-- Bookmark Feed -->
+      <section id="bookmark-feed-section">
+        <h2>Bookmarks</h2>
+        <div id="bookmark-feed">
+          <p>Please select a user to view bookmarks.</p>
+        </div>
       </section>
     </main>
   </body>
