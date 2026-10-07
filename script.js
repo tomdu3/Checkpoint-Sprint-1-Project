@@ -49,17 +49,11 @@ function setupBookmarkForm() {
 
     userError.textContent = "";
 
-    // Create new bookmark object
+    // Create new bookmark 
     const newBookmark = createNewBookmark(url, title, description);
 
-    // Save data using storage.js and re-render list
-    const userData = getData(userId) || [];
-    // Get data for the user, or an empty array if no data exists yet
-    // Check if the data is an array, otherwise initialize an empty array
-    const bookmarks = Array.isArray(userData) ? userData : [];
-
-    bookmarks.push(newBookmark);
-    setData(userId, bookmarks);
+    // Save the new bookmark 
+    saveBookmark(userId, newBookmark);
 
     // Re-render feed immediately when a new bookmark is submitted
     renderBookmarks(userId);
@@ -68,6 +62,14 @@ function setupBookmarkForm() {
 }
 
 setupBookmarkForm();
+
+// save bookmark 
+function saveBookmark(userId, bookmark) {
+  const userData = getData(userId) || [];
+  const bookmarks = Array.isArray(userData) ? userData : [];
+  bookmarks.push(bookmark);
+  setData(userId, bookmarks);
+}
 
 // create new bookmark 
 function createNewBookmark(url, title, description) {
