@@ -2,6 +2,6 @@
   "name": "project-shared-bookmarks",
   "version": "1.0.0",
   "scripts": {
-    "test": "node example.test.js"
+    "test": "node script.test.js"
   }
 }

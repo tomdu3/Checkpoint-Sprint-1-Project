@@ -136,7 +136,6 @@ export function renderBookmarks(userId) {
     const link = document.createElement("a");
     link.href = bookmark.url;
     link.target = "_blank";
-    link.rel = "noopener noreferrer";
     link.textContent = bookmark.title;
     titleCell.appendChild(link);
 
@@ -147,7 +146,7 @@ export function renderBookmarks(userId) {
     // Formatted creation timestamp
     const timestampCell = document.createElement("td");
     timestampCell.textContent = formatTimestamp(bookmark.createdAt);
-    
+
     // Bookmark actions
     const actionsCell = document.createElement("td");
     const copyButton = document.createElement("button");
