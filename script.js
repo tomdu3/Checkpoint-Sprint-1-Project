@@ -17,6 +17,9 @@ function setupUserDropdown() {
     // Fetch and display bookmarks when user selection changes
     userElement.addEventListener("change", (event) => {
       const selectedUserId = event.target.value;
+      if(selectedUserId){
+        clearUserError();
+      }
       renderBookmarks(selectedUserId);
     });
 
@@ -26,6 +29,14 @@ function setupUserDropdown() {
   }
 }
 setupUserDropdown();
+
+// clear error message after selecting a user 
+function clearUserError(){
+  const userError = document.querySelector("#user-error");
+  if (userError){
+    userError.textContent = "";
+  }
+}
 
 // Bookmark submission form
 function setupBookmarkForm() {
@@ -37,14 +48,11 @@ function setupBookmarkForm() {
     event.preventDefault();
     // get bookmark form values
     const { url, title, description, userId } = getBookmarkFormValues();
-    
-    const userError = document.querySelector("#user-error");
-    if (!userId) {
-      userError.textContent = "Please select a user before adding a bookmark.";
+
+    // validate selected user 
+    if (!validateSelectedUser(userId)) {
       return;
     }
-
-    userError.textContent = "";
 
     // Create new bookmark
     const newBookmark = createNewBookmark(url, title, description);
@@ -59,6 +67,17 @@ function setupBookmarkForm() {
 }
 
 setupBookmarkForm();
+
+// validate selected user
+function validateSelectedUser(userId) {
+  const userError = document.querySelector("#user-error");
+  if (!userId) {
+    userError.textContent = "Please select a user before adding a bookmark.";
+    return false;
+  }
+  userError.textContent = "";
+  return true;
+}
 
 // get bookmark form values 
 function getBookmarkFormValues(){
