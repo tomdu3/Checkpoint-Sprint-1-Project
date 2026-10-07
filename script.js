@@ -111,10 +111,14 @@ export function renderBookmarks(userId, isError = false) {
   const actionsHeader = document.createElement("th");
   actionsHeader.textContent = "Actions";
 
+  const likesHeader = document.createElement("th");
+  likesHeader.textContent = "Likes";
+
   headerRow.appendChild(titleHeader);
   headerRow.appendChild(descriptionHeader);
   headerRow.appendChild(timestampHeader);
   headerRow.appendChild(actionsHeader);
+  headerRow.appendChild(likesHeader);
   theadElement.appendChild(headerRow);
   tableElement.appendChild(theadElement);
 
@@ -149,32 +153,57 @@ export function renderBookmarks(userId, isError = false) {
     copyButton.type = "button";
     copyButton.textContent = "Copy to clipboard";
 
-    copyButton.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(bookmark.url);
-
-        copyButton.textContent = "Copied!";
-
-        setTimeout(() => {
-          copyButton.textContent = "Copy to clipboard";
-        }, 1500);
-      } catch {
-        copyButton.textContent = "Copy failed";
-      }
+    copyButton.addEventListener("click", () => {
+      copyBookmarkUrl(bookmark.url, copyButton);
     });
 
-actionsCell.appendChild(copyButton);
+    // Like counter button
+    const likesCell = document.createElement("td");
+    const likeButton = document.createElement("button");
+    likeButton.type = "button";
+    likeButton.textContent = `Like ${bookmark.likes ?? 0}`;
+
+    likeButton.addEventListener("click", () => {
+      likeBookmark(bookmark, userId, bookmarks);
+    });
+
+    actionsCell.appendChild(copyButton);
+    likesCell.appendChild(likeButton);
 
     row.appendChild(titleCell);
     row.appendChild(descriptionCell);
     row.appendChild(timestampCell);
     row.appendChild(actionsCell);
+    row.appendChild(likesCell);
 
     tbodyElement.appendChild(row);
-});
+  });
 
   tableElement.appendChild(tbodyElement);
   feedElement.appendChild(tableElement);
+}
+
+// Copy bookmark URL
+async function copyBookmarkUrl(url, button) {
+  try {
+    await navigator.clipboard.writeText(url);
+
+    button.textContent = "Copied!";
+
+    setTimeout(() => {
+      button.textContent = "Copy to clipboard";
+    }, 1500);
+  } catch {
+    button.textContent = "Copy failed";
+  }
+}
+
+// Update bookmark like count
+function likeBookmark(bookmark, userId, bookmarks) {
+  bookmark.likes = (bookmark.likes ?? 0) + 1;
+
+  setData(userId, bookmarks);
+  renderBookmarks(userId);
 }
 
 // Sort bookmarks in reverse chronological order (newest first)
