@@ -16,10 +16,11 @@
       <!-- User Menu -->
       <section>
         <h2>User Menu</h2>
-        <label for="user_Id">Choose a user:</label>
+        <label for="user_Id" aria-describedby="user-error">Choose a user:</label>
         <select id="user_Id">
           <option value="">Select a user</option>
         </select>
+        <p id="user-error" role="alert"></p>
       </section>
 
       <!-- Bookmark Form -->

@@ -38,10 +38,14 @@ if (form) {
     const userId = document.querySelector("#user_Id").value;
 
     // Check if user is selected
+    const userError = document.querySelector("#user-error");
+
     if (!userId) {
-      renderBookmarks("", true);
+      userError.textContent = "Please select a user before adding a bookmark.";
       return;
     }
+
+    userError.textContent = "";
 
     // Create new bookmark object
     const newBookmark = {
@@ -66,7 +70,7 @@ if (form) {
 }
 
 // Render bookmark feed for the selected user
-export function renderBookmarks(userId, isError = false) {
+export function renderBookmarks(userId) {
   const feedElement = document.querySelector("#bookmark-feed");
 
   if (!feedElement) return;
@@ -75,10 +79,7 @@ export function renderBookmarks(userId, isError = false) {
 
   if (!userId) {
     const message = document.createElement("p");
-    message.textContent = "Cannot add bookmark. Please select a user first.";
-    if (isError) {
-      message.style.color = "red";
-    }
+    message.textContent = "Please select a user to view bookmarks.";
     feedElement.appendChild(message);
     return;
   }
