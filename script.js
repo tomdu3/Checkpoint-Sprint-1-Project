@@ -1,6 +1,7 @@
-import { getData, setData } from "./storage.js";
+import { getData } from "./storage.js";
 import { setupUserDropdown } from "./userDropdown.js";
 import { setupBookmarkForm } from "./bookmarkForm.js";
+import { createCopyButton, createLikeButton } from "./bookmarkActions.js";
 
 
 // Render bookmark feed for the selected user
@@ -68,7 +69,12 @@ function createBookmarkRow(bookmark, userId, bookmarks) {
 
   // Bookmark like button
   const likesCell = document.createElement("td");
-  const likeButton = createLikeButton(bookmark, userId, bookmarks);
+  const likeButton = createLikeButton(
+    bookmark,
+    userId,
+    bookmarks,
+    renderBookmarks,
+  );
 
   actionsCell.appendChild(copyButton);
   likesCell.appendChild(likeButton);
@@ -80,30 +86,6 @@ function createBookmarkRow(bookmark, userId, bookmarks) {
   row.appendChild(likesCell);
 
   return row;
-}
-
-// create like button
-function createLikeButton(bookmark, userId, bookmarks) {
-  const likeButton = document.createElement("button");
-  likeButton.type = "button";
-  likeButton.textContent = `Like ${bookmark.likes ?? 0}`;
-
-  likeButton.addEventListener("click", () => {
-    likeBookmark(bookmark, userId, bookmarks);
-  });
-  return likeButton;
-}
-
-// create copy button
-function createCopyButton(bookmark) {
-  const copyButton = document.createElement("button");
-  copyButton.type = "button";
-  copyButton.textContent = "Copy to clipboard";
-
-  copyButton.addEventListener("click", () => {
-    copyBookmarkUrl(bookmark.url, copyButton);
-  });
-  return copyButton;
 }
 
 // Create bookmark table : builds table + headings
@@ -130,26 +112,6 @@ function showFeedMessage(feedElement, text) {
   const message = document.createElement("p");
   message.textContent = text;
   feedElement.appendChild(message);
-}
-
-// Copy bookmark URL
-async function copyBookmarkUrl(url, button) {
-  try {
-    await navigator.clipboard.writeText(url);
-    button.textContent = "Copied!";
-    setTimeout(() => {
-      button.textContent = "Copy to clipboard";
-    }, 1500);
-  } catch {
-    button.textContent = "Copy failed";
-  }
-}
-
-// Update bookmark like count
-function likeBookmark(bookmark, userId, bookmarks) {
-  bookmark.likes = (bookmark.likes ?? 0) + 1;
-  setData(userId, bookmarks);
-  renderBookmarks(userId);
 }
 
 // Sort bookmarks in reverse chronological order (newest first)
