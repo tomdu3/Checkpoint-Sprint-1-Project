@@ -30,17 +30,20 @@ if (userElement) {
 }
 setupUserDropdown();
 
-// Bookmark submission handler
-const form = document.querySelector("#bookmark-form");
-if (form) {
+// Bookmark submission form
+function setupBookmarkForm() {
+
+  const form = document.querySelector("#bookmark-form");
+
+if (!form) return;
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+
     const url = document.querySelector("#url").value.trim().replace(/\/+$/, "");
     const title = document.querySelector("#title").value.trim();
     const description = document.querySelector("#description").value.trim();
     const userId = document.querySelector("#user_Id").value;
-
-    // Check if user is selected
     const userError = document.querySelector("#user-error");
 
     if (!userId) {
@@ -60,8 +63,10 @@ if (form) {
     };
 
     // Save data using storage.js and re-render list
-    const userData = getData(userId) || []; // Get data for the user, or an empty array if no data exists yet
-    const bookmarks = Array.isArray(userData) ? userData : []; // Check if the data is an array, otherwise initialize an empty array
+    const userData = getData(userId) || [];
+    // Get data for the user, or an empty array if no data exists yet
+    // Check if the data is an array, otherwise initialize an empty array
+    const bookmarks = Array.isArray(userData) ? userData : [];
 
     bookmarks.push(newBookmark);
     setData(userId, bookmarks);
@@ -71,6 +76,8 @@ if (form) {
     form.reset();
   });
 }
+
+setupBookmarkForm();
 
 // Render bookmark feed for the selected user
 export function renderBookmarks(userId) {
