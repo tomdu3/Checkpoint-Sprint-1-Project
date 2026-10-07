@@ -49,7 +49,7 @@ This document outlines the testing strategy and verifies that each requirement f
 - [ ] 12. The website must score 100% for accessibility in Lighthouse in the Desktop device mode, for all views in the website
 
 - [x] 13. Unit tests must be written for at least one non-trivial function
-  - We have written unit tests for the `createBookmarkElement` function in the [`script.test.js`](./script.test.js) file. Here's the output of the `npm test` command:
+  - We have written unit tests for the `formatTimestamp`, `sortBookmarks` functions in the [`script.test.js`](./script.test.js) file. Here's the output of the `npm test` command:
   ```
     ✔ formatTimestamp returns a formatted date string for a valid ISO timestamp (19.946951ms)
     ✔ formatTimestamp returns an empty string for missing or invalid timestamps (0.206738ms)
@@ -65,5 +65,5 @@ This document outlines the testing strategy and verifies that each requirement f
     ℹ todo 0
     ℹ duration_ms 34.195821
   ```
-- [ ] 14. The project must not contain any dead code. All written JavaScript and CSS must be used.
-  - The document doesn't seem to have any dead code.
+- [x] 14. The project must not contain any dead code. All written JavaScript and CSS must be used.
+  - The document doesn't seem to have any dead code, with the exception of the provided `clearData` function in `storage.js`, which we haven't used in our code, but it was indicated that we shouldn't need to modify it in order to complete the project.
