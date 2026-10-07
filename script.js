@@ -4,7 +4,7 @@ import { getUserIds, getData, setData } from "./storage.js";
 function setupUserDropdown() {
   const userElement = document.getElementById("user_Id");
 
-  if (userElement) {
+  if (!userElement) return;
     const userIds = getUserIds();
 
     userIds.forEach((userId) => {
@@ -27,7 +27,7 @@ function setupUserDropdown() {
       renderBookmarks(userElement.value);
     }
   }
-}
+
 setupUserDropdown();
 
 // clear error message after selecting a user 
