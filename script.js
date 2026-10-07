@@ -1,19 +1,20 @@
 import { getUserIds, getData, setData } from "./storage.js";
 
-// Create user selection dropdown
+// Set up user selection dropdown
+function setupUserDropdown(){
 const userElement = document.getElementById("user_Id");
 
 if (userElement) {
   const userIds = getUserIds();
 
   userIds.forEach((userId) => {
-    const options = document.createElement("option");
+    const option = document.createElement("option");
 
-    options.value = userId;
+    option.value = userId;
 
-    options.textContent = `User ${userId}`;
+    option.textContent = `User ${userId}`;
 
-    userElement.appendChild(options);
+    userElement.appendChild(option);
   });
 
   // Fetch and display bookmarks when user selection changes
@@ -26,6 +27,8 @@ if (userElement) {
     renderBookmarks(userElement.value);
   }
 }
+}
+setupUserDropdown();
 
 // Bookmark submission handler
 const form = document.querySelector("#bookmark-form");
