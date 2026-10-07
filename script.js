@@ -50,13 +50,7 @@ function setupBookmarkForm() {
     userError.textContent = "";
 
     // Create new bookmark object
-    const newBookmark = {
-      url,
-      title,
-      description,
-      createdAt: new Date().toISOString(),
-      likes: 0,
-    };
+    const newBookmark = createNewBookmark(url, title, description);
 
     // Save data using storage.js and re-render list
     const userData = getData(userId) || [];
@@ -74,6 +68,17 @@ function setupBookmarkForm() {
 }
 
 setupBookmarkForm();
+
+// create new bookmark 
+function createNewBookmark(url, title, description) {
+  return {
+    url,
+    title,
+    description,
+    createdAt: new Date().toISOString(),
+    likes: 0,
+  };
+}
 
 // Render bookmark feed for the selected user
 export function renderBookmarks(userId) {
