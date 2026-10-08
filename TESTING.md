@@ -50,7 +50,7 @@ This document outlines the testing strategy and verifies that each requirement f
 
 - [x] 11. After creating a new bookmark, the list of bookmarks for the current user is shown, including the new bookmark
   - After submitting the form, the new bookmark is added to the list of bookmarks for the selected user.
-  
+
     ![User bookmark list after adding a new bookmark](./docs/bookmark-added-display.png)
 
 - [x] 12. The website must score 100% for accessibility in Lighthouse in the Desktop device mode, for all views in the website.
@@ -60,21 +60,23 @@ This document outlines the testing strategy and verifies that each requirement f
   ![Lighthouse accessibility score](./docs/lighthouse-accessibility.png)
 
 - [x] 13. Unit tests must be written for at least one non-trivial function
-  - We have written unit tests for the `formatTimestamp`, `sortBookmarks` functions in the [`script.test.js`](./script.test.js) file. Here's the output of the `npm test` command:
+  - We have written unit tests for the `formatTimestamp`, `sortBookmarks`, and `incrementLikeCount` functions in the [`script.test.js`](./script.test.js) file. Here's the output of the `npm test` command:
   ```
-    ✔ formatTimestamp returns a formatted date string for a valid ISO timestamp (19.946951ms)
-    ✔ formatTimestamp returns an empty string for missing or invalid timestamps (0.206738ms)
-    ✔ sortBookmarks returns empty array when given empty list or invalid input (4.945163ms)
-    ✔ sortBookmarks sorts bookmarks in reverse chronological order (newest first) (0.243616ms)
-    ✔ sortBookmarks does not change the original array (0.281471ms)
-    ℹ tests 5
-    ℹ suites 0
-    ℹ pass 5
-    ℹ fail 0
-    ℹ cancelled 0
-    ℹ skipped 0
-    ℹ todo 0
-    ℹ duration_ms 34.195821
+  ✔ formatTimestamp returns a formatted date string for a valid ISO timestamp (24.243834ms)
+  ✔ formatTimestamp returns an empty string for missing or invalid timestamps (4.924016ms)
+  ✔ sortBookmarks returns empty array when given empty list or invalid input (1.143612ms)
+  ✔ sortBookmarks sorts bookmarks in reverse chronological order (newest first) (0.273436ms)
+  ✔ sortBookmarks does not change the original array (0.315901ms)
+  ✔ incrementLikeCount increases the like count by one (0.182221ms)
+  ✔ incrementLikeCount starts at one when the like count is missing (0.162386ms)
+  ℹ tests 7
+  ℹ suites 0
+  ℹ pass 7
+  ℹ fail 0
+  ℹ cancelled 0
+  ℹ skipped 0
+  ℹ todo 0
+  ℹ duration_ms 40.256995
   ```
 - [x] 14. The project must not contain any dead code. All written JavaScript and CSS must be used.
   - The document doesn't seem to have any dead code, with the exception of the provided `clearData` function in `storage.js`, which we haven't used in our code, but it was indicated that we shouldn't need to modify it in order to complete the project.
