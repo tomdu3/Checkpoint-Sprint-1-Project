@@ -7,7 +7,8 @@ globalThis.document = {
   querySelector: () => null,
 };
 
-const { formatTimestamp, sortBookmarks } = await import("./script.js");
+const { formatTimestamp, sortBookmarks, incrementLikeCount } =
+  await import("./script.js");
 
 // Test cases for formatTimestamp function
 test("formatTimestamp returns a formatted date string for a valid ISO timestamp", () => {
@@ -66,4 +67,16 @@ test("sortBookmarks does not change the original array", () => {
   const copy = [...bookmarks];
   sortBookmarks(bookmarks);
   assert.deepEqual(bookmarks, copy);
+});
+
+// Test cases for incrementLikeCount function
+test("incrementLikeCount increases the like count by one", () => {
+  assert.equal(incrementLikeCount(0), 1);
+  assert.equal(incrementLikeCount(1), 2);
+  assert.equal(incrementLikeCount(5), 6);
+  assert.equal(incrementLikeCount(99), 100);
+});
+
+test("incrementLikeCount starts at one when the like count is missing", () => {
+  assert.equal(incrementLikeCount(undefined), 1);
 });
