@@ -255,9 +255,14 @@ async function copyBookmarkUrl(url, button) {
 
 // Update bookmark like count
 function likeBookmark(bookmark, userId, bookmarks) {
-  bookmark.likes = (bookmark.likes ?? 0) + 1;
+  bookmark.likes = incrementLikeCount(bookmark.likes);
   setData(userId, bookmarks);
   renderBookmarks(userId);
+}
+
+// Increment bookmark like count
+export function incrementLikeCount(likes) {
+  return (likes ?? 0) + 1;
 }
 
 // Sort bookmarks in reverse chronological order (newest first)
