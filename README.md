@@ -5,7 +5,7 @@ First group project for Checkpoint.
 ## Group Members
 
 - [Houssam Lahlah](https://github.com/HoussamLh)
-- [Tomislav](https://github.com/tomdu3)
+- [Tomislav Dukez](https://github.com/tomdu3)
 
 ## Testing
 
