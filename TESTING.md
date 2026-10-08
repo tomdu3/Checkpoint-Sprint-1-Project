@@ -6,18 +6,22 @@ This document outlines the testing strategy and verifies that each requirement f
 
 - [x] 1. The website must contain a drop-down which lists five users
   - We have fetched 5 users from our `getUserIds()` helper function to populate the dropdown list.
+
     ![User dropdown menu](./docs/dropdown-user-menu.png)
 
 - [x] 2. Selecting a user must display the list of bookmarks for the relevant user
   - When we select a user from the dropdown, the list of bookmarks related to that user is displayed.
+
     ![Bookmark feed](./docs/bookmarks-selected-user.png)
 
 - [x] 3. If there are no bookmarks for the selected user, a message is displayed to explain this
   - When we select a user with no bookmarks, a message is displayed to explain this.
+
     ![No bookmarks message](./docs/no-bookmarks-selected-user.png)
 
 - [x] 4. The list of bookmarks must be shown in reverse chronological order
   - When we select a user, their bookmarks are shown in reverse chronological order.
+
     ![Bookmark feed in reverse chronological order](./docs/bookmarks-order.png)
 
 - [x] 5. Each bookmark has a title, description and created at timestamp displayed
@@ -25,6 +29,7 @@ This document outlines the testing strategy and verifies that each requirement f
 
 - [x] 6. Each bookmark’s title is a link to the bookmark’s URL
   - When we click on the title of a bookmark, it opens the URL in a new tab. The screenshot below shows that the titles are hyperlinks (in the developer tools' elements tab).
+
     ![Bookmark title as a link](./docs/bookmark-titles-links.png)
 
 - [x] 7. Each bookmark's "Copy to clipboard" button must copy the URL of the bookmark
@@ -40,10 +45,12 @@ This document outlines the testing strategy and verifies that each requirement f
 
 - [x] 10. Submitting the form adds a new bookmark for the relevant user only
   - When we submit the form, the new bookmark is added to the list of bookmarks for the selected user.
+
     ![Add new bookmark](./docs/user-add-bookmark.png)
 
 - [x] 11. After creating a new bookmark, the list of bookmarks for the current user is shown, including the new bookmark
   - After submitting the form, the new bookmark is added to the list of bookmarks for the selected user.
+  
     ![User bookmark list after adding a new bookmark](./docs/bookmark-added-display.png)
 
 - [x] 12. The website must score 100% for accessibility in Lighthouse in the Desktop device mode, for all views in the website.
