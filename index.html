@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" src="script.js"></script>
     <title>Bookmark Manager</title>
   </head>
@@ -16,8 +16,10 @@
       <!-- User Menu -->
       <section>
         <h2>User Menu</h2>
-        <label for="user_Id">Choose a user:</label>
-        <select id="user_Id" aria-describedby="user-error">
+        <label for="user_Id" aria-describedby="user-error"
+          >Choose a user:</label
+        >
+        <select id="user_Id">
           <option value="">Select a user</option>
         </select>
         <p id="user-error" role="alert"></p>
@@ -36,7 +38,7 @@
               placeholder="http[s]://example.com"
               title="Enter a valid URL starting with http:// or https://, e.g. https://example.com"
               required
-            >
+            />
           </div>
           <div>
             <label for="title">Title</label>
@@ -49,7 +51,7 @@
               title="Enter a non-empty title for the bookmark, e.g. Google"
               maxlength="80"
               required
-            >
+            />
           </div>
           <div>
             <label for="description">Description</label>
