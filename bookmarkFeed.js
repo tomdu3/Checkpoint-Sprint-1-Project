@@ -1,8 +1,9 @@
 import { getData } from "./storage.js";
 import { createCopyButton, createLikeButton } from "./bookmarkActions.js";
+import { sortBookmarks, formatTimestamp } from "./bookmarkUtils.js";
 
 // Render bookmark feed for the selected user
-export function renderBookmarksFeed(userId, sortBookmarks, formatTimestamp) {
+export function renderBookmarkFeed(userId) {
   const feedElement = document.querySelector("#bookmark-feed");
 
   if (!feedElement) return;
@@ -35,13 +36,7 @@ export function renderBookmarksFeed(userId, sortBookmarks, formatTimestamp) {
       bookmark,
       userId,
       bookmarks,
-      formatTimestamp,
-      (selectedUserId) =>
-        renderBookmarksFeed(
-            selectedUserId, 
-            sortBookmarks, 
-            formatTimestamp,
-        ),
+      renderBookmarkFeed,
     );
     tbodyElement.appendChild(row);
   });
@@ -55,8 +50,7 @@ function createBookmarkRow(
   bookmark,
   userId,
   bookmarks,
-  formatTimestamp,
-  renderBookmarksFeed,
+  renderBookmarkFeed,
 ) {
   const row = document.createElement("tr");
 
@@ -89,7 +83,7 @@ function createBookmarkRow(
     bookmark,
     userId,
     bookmarks,
-    renderBookmarksFeed,
+    renderBookmarkFeed,
   );
 
   actionsCell.appendChild(copyButton);
